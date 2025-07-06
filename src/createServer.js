@@ -33,7 +33,8 @@ function createServer() {
       return res.end('Access forbidden: path traversal detected.');
     }
 
-    const realPath = path.join(__dirname, '..', 'public', fileName);
+    const publicDir = path.join(__dirname, '..', 'public');
+    const realPath = path.join(publicDir, fileName);
 
     fs.readFile(realPath, (err, data) => {
       if (!err) {
