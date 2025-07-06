@@ -2,6 +2,7 @@
 
 const http = require('http');
 const fs = require('fs');
+const path = require('path');
 
 function createServer() {
   const server = http.createServer((req, res) => {
@@ -13,9 +14,7 @@ function createServer() {
     if (pathname === '/file/' || pathname === '/file') {
       res.statusCode = 200;
 
-      res.end(
-        'To access files, use paths that start with /file/',
-      );
+      res.end('To access files, use paths that start with /file/');
 
       return;
     }
@@ -34,7 +33,9 @@ function createServer() {
       return res.end('Access forbidden: path traversal detected.');
     }
 
-    fs.readFile(`./public/${fileName}`, (err, data) => {
+    const realPath = path.join(__dirname, '..', 'public', fileName);
+
+    fs.readFile(realPath, (err, data) => {
       if (!err) {
         res.statusCode = 200;
 
